@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-container>
-      <h2 class="mb-5">{{ job.company_name }}</h2>
-      <p>職種: {{ job.job_title }}</p>
-      <p>内容: {{ job.job_description }}</p>
-      <p>給料: {{ job.salary }}円</p>
-      <p>都道府県: {{ job.prefectures }}</p>
-      <p>市町村: {{ job.city }}</p>
+      <h2 class="mb-5">{{ job.recording_date }}</h2>
+      <p>朝の体温: {{ job.moningbody_temperature }}</p>
+      <p>朝の体調: {{ job.moningbody_condition }}</p>
+      <p>夜の体調: {{ job.nightbody_temperature }}円</p>
+      <p>夜の体調: {{ job.nightbody_condition }}</p>
+      <p>気になること: {{ job.etc }}</p>
     </v-container>
   </div>
 </template>

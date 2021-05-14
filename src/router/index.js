@@ -6,33 +6,33 @@ import JobEditor from '../views/JobEditor.vue'
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path:'/job/:id',
-    name:'job',
-    component: Job,
-    props: true ,
+const routes = [{
+        path: "/",
+        name: "Home",
+        component: Home,
+    },
+    {
+        path: '/job/:id',
+        name: 'job',
+        component: Job,
+        props: true,
 
-  },
-  {
-    path:'/editor',
-    name:'editor',
-    component: JobEditor,
-    props: true ,
+    },
+    {
+        path: '/editor',
+        name: 'editor',
+        component: JobEditor,
+        props: true,
 
-  }
+    }
 
-  
+
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  routes,
+    mode: "history",
+    routes,
 });
+
 
 export default router;
