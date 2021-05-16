@@ -1,103 +1,79 @@
 <template>
-    <div>
-        <v-container>
-            <form @submit.prevent="onSubmit">
-                <v-text-field
-                    v-model="company_name"
-                    label = "会社名"
-                    required
-                    >
-                </v-text-field>
-                <v-text-field
-                    v-model="company_email"
-                    label = "メールアドレス"
-                    required
-                    >
-                </v-text-field>
-                <v-text-field
-                    v-model="job_title"
-                    label = "職種"
-                    required
-                    >
-                </v-text-field>
-                <v-text-field
-                    v-model="job_description"
-                    label = "仕事内容"
-                    required
-                    >
-                </v-text-field>
-                <v-text-field
-                    v-model="salary"
-                    label = "給料"
-                    required
-                    >
-                </v-text-field>
-                <v-text-field
-                    v-model="prefectures"
-                    label = "都道府県"
-                    required
-                    >
-                </v-text-field>
-                <v-text-field
-                    v-model="city"
-                    label = "市町村"
-                    required
-                    >
-                </v-text-field>
-                <div class="text-center">
-                    <v-btn
-                        color='success'
-                        type='submit'
-                    >送信
-                    </v-btn>
-                </div>
-            </form>
-        </v-container>
-    </div>
+  <div>
+    <v-container>
+      <form @submit.prevent="onSubmit">
+        <v-text-field
+          v-model="recording_date"
+          label="測定日"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="moningbody_temperature"
+          label="朝の体温"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="moningbody_condition"
+          label="朝の体調"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="nightbody_temperature"
+          label="夜の体温"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="nightbody_condition"
+          label="夜の体調"
+          required
+        ></v-text-field>
+        <v-text-field v-model="etc" label="備考" required></v-text-field>
+        <div class="text-center">
+          <v-btn color="success" type="submit">送信</v-btn>
+        </div>
+      </form>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import { apiService } from '../common/api.service.js'
+import { apiService } from "../common/api.service.js";
 
 export default {
-    name: 'JobEditor' ,
-    data() {
-        return {
-            company_name:null,
-            company_email:null,
-            job_title:null,
-            job_description:null,
-            salary:null,
-            prefectures:null,
-            city:null,
-            error:null,
-        }
+  name: "JobEditor",
+  data() {
+    return {
+      recording_date: null,
+      moningbody_temperature: null,
+      moningbody_condition: null,
+      nightbody_temperature: null,
+      nightbody_condition: null,
+      error: null,
+    };
+  },
+  methods: {
+    onSubmit() {
+      let endpoint = "/api/jobs/";
+      let method = "post";
+      console.log("1");
+      apiService(endpoint, method, {
+        recording_date: this.recording_date,
+        moningbody_temperature: this.moningbody_temperature,
+        moningbody_condition: this.nightbody_condition,
+        nightbody_temperature: this.nightbody_temperature,
+        nightbody_condition: this.nightbody_condition,
+        error: null,
+      }).then((job_data) => {
+        console.log("2");
+        this.$router.push({
+          name: "job",
+          params: { id: job_data.id },
+        });
+      });
     },
-    method: {
-        onSubmit() {
-            let endpoint = '/api/jobs/';
-            let method = 'post';
-            console.log("1");
-            apiService(endpoint, method, {
-                company_name:this.company_name,
-                company_email:this.company_email,
-                job_title:this.job_title,
-                job_description:this.job_description,
-                salary:this.salary,
-                prefectures:this.prefectures,
-                city:this.city
-            }).then(job_data =>{
-                console.log("2");
-                this.router.push({
-                    name:'job',
-                    params: { id: job_data.id }
-                })
-            })
-        }
-    },
-    created() {
-        document.title = 'Editor - job';
-    }
-    
-}
+  },
+  created() {
+    document.title = "Editor - Job";
+  },
+};
 </script>
