@@ -2,11 +2,16 @@
   <div>
     <v-container>
       <form @submit.prevent="onSubmit">
-        <v-text-field
+        
+        <v-calendar
+            v-model="recording_date"
+            :attributes="attributes"
+        ></v-calendar>
+        <!-- <v-text-field
           v-model="recording_date"
           label="測定日"
           required
-        ></v-text-field>
+        ></v-text-field> -->
         <v-text-field
           v-model="moningbody_temperature"
           label="朝の体温"
@@ -15,19 +20,16 @@
         <v-text-field
           v-model="moningbody_condition"
           label="朝の体調"
-          required
         ></v-text-field>
         <v-text-field
           v-model="nightbody_temperature"
           label="夜の体温"
-          required
         ></v-text-field>
         <v-text-field
           v-model="nightbody_condition"
           label="夜の体調"
-          required
         ></v-text-field>
-        <v-text-field v-model="etc" label="備考" required></v-text-field>
+        <v-text-field v-model="etc" label="備考"></v-text-field>
         <div class="text-center">
           <v-btn color="success" type="submit">送信</v-btn>
         </div>
