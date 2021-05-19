@@ -2,11 +2,7 @@
   <div>
     <v-container>
       <form @submit.prevent="onSubmit">
-        
-        <v-calendar
-            v-model="recording_date"
-            :attributes="attributes"
-        ></v-calendar>
+        <v-calendar v-model="recording_date"></v-calendar>
         <!-- <v-text-field
           v-model="recording_date"
           label="測定日"
@@ -43,6 +39,12 @@ import { apiService } from "../common/api.service.js";
 
 export default {
   name: "JobEditor",
+  props: {
+    id: {
+      type: Number,
+      required: false,
+    },
+  },
   data() {
     return {
       recording_date: null,
@@ -50,6 +52,7 @@ export default {
       moningbody_condition: null,
       nightbody_temperature: null,
       nightbody_condition: null,
+      etc: null,
       error: null,
     };
   },
@@ -58,12 +61,17 @@ export default {
       let endpoint = "/api/jobs/";
       let method = "post";
       console.log("1");
+      if (this.id !== undefined) {
+        endpoint += this.id + "/";
+        method = "PUT";
+      }
       apiService(endpoint, method, {
         recording_date: this.recording_date,
         moningbody_temperature: this.moningbody_temperature,
-        moningbody_condition: this.nightbody_condition,
+        moningbody_condition: this.moningbody_condition,
         nightbody_temperature: this.nightbody_temperature,
         nightbody_condition: this.nightbody_condition,
+        etc: this.etc,
         error: null,
       }).then((job_data) => {
         console.log("2");
@@ -73,6 +81,24 @@ export default {
         });
       });
     },
+  },
+  async beforeRouterEnter(to, from, next) {
+    console.log("###");
+    if (to.params.id != undefined) {
+      console.log(to.params.id);
+      let endpoint = "/api/jobs/" + to.params.id + "/";
+      let data = await apiService(endpoint);
+      return next((vm) => {
+        (vm.recording_date = data.recording_date),
+          (vm.moningbody_temperature = data.moningbody_temperature),
+          (vm.moningbody_condition = data.moningbody_condition),
+          (vm.nightbody_temperature = data.nightbody_temperature),
+          (vm.nightbody_condition = data.nightbody_condition),
+          (vm.etc = data.etc);
+      });
+    } else {
+      return next();
+    }
   },
   created() {
     document.title = "Editor - Job";

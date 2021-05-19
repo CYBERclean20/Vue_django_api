@@ -3,8 +3,13 @@ import App from "./App.vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 import "@babel/polyfill";
+// import VCalendar from "v-calendar";
+
+// Vue.use(VCalendar);
 
 Vue.config.productionTip = false;
+
+// Vue.use(Vuetify);
 
 new Vue({
   router,

@@ -1,22 +1,7 @@
 <template>
   <div>
     <v-container>
-      <v-row>
-        <v-col cols="10">
-          <v-data-table
-          :headers="headers"
-          :items="jobs"
-          disable-paginationprop
-          :server-items-length="total"
-          :loading="loading"
-         
-          locale="ja-jp"
-          loading-text="読込中"
-          no-data-text="データがありません。"
-          @click:row="clickRow"
-      >
-          
-      
+      <v-data-table :headers="headers" :items="jobs" @click:row="clickRow">
         <!-- <thead class="thead-dark">
           <tr>
             <th>Data</th>
@@ -35,9 +20,7 @@
           </tr>
         </tbody> -->
       </v-data-table>
-    </v-col>
-  </v-row>
-        
+
       <!-- <div v-for="job of jobs" :key="job.pk">
         <h2>
           <router-link :to="{ name: 'job', params:{ id: job.id } }"
@@ -54,66 +37,71 @@
 
 <script>
 // @ is an alias to /src
-import { apiService } from '../common/api.service.js'
-import 'vue-good-table/dist/vue-good-table.css'
+import { apiService } from "../common/api.service.js";
+import "vue-good-table/dist/vue-good-table.css";
+import "@mdi/font/css/materialdesignicons.css";
 
 export default {
   name: "Home",
-  el:'#app',
+
   data() {
     return {
       headers: [
-          { 
-            text: 'Date', 
-            value: 'recording_date' 
-          },
-          {
-            text: 'Moning Temp',
-            value: 'moningbody_temperature',
-          },
-          { text: 'Night Temp', 
-            value: 'nightbody_temperature' 
-          },
-        ],
-      jobs: []
+        {
+          text: "id",
+          value: "id",
+        },
+        {
+          text: "Date",
+          value: "recording_date",
+        },
+        {
+          text: "Moning Temp",
+          value: "moningbody_temperature",
+        },
+        { text: "Night Temp", value: "nightbody_temperature" },
+      ],
+      jobs: [],
     };
   },
   methods: {
     getJobs() {
-      
-      let endpoint = 'api/jobs/'
-      apiService(endpoint).then(data => {
+      let endpoint = "api/jobs/";
+      apiService(endpoint).then((data) => {
         console.log(data);
         this.jobs.push(...data);
       });
     },
-    clickRow: function(item) {
+    clickRow: function (item) {
       // const selected = this.items.indexOf(item);
       // alert((selected + 1) + "行目をクリックしました。");
       this.$router.push({
-          name: "job",
-          params: { id: item.id },
-        });
-    }
+        name: "job",
+        params: { id: item.id },
+      });
+    },
   },
-  created(){
+  created() {
     this.getJobs();
-    document.title = 'Job Board';
+    document.title = "Job Board";
+  },
+  icons: {
+    iconfont: "mdi",
   },
 };
 </script>
 <style scoped>
-  .job-link{
-    font-weight: bold;
-    color:black;
-    text-decoration: none;
-  }
+.job-link {
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
 
-  .job-link:hover{
-    color:#41B883;
-  }
+.job-link:hover {
+  color: #41b883;
+}
 
-  .container {
+.container {
   height: 100%;
   width: 100%;
   padding: 20px;
@@ -121,9 +109,9 @@ export default {
   flex-direction: column;
   align-items: center;
   font-family: Arial, Helvetica, sans-serif;
- }
- 
- /* .table { 
+}
+
+/* .table {
    background-color: #41B883;
  } */
 </style>

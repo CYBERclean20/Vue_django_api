@@ -7,46 +7,51 @@
       <p>夜の体調: {{ job.nightbody_temperature }}</p>
       <p>夜の体調: {{ job.nightbody_condition }}</p>
       <p>気になること: {{ job.etc }}</p>
+      <v-btn
+        :to="{ name: 'editor', params: { id: job.id } }"
+        color="success"
+        class="mr-2"
+      >
+        編集
+      </v-btn>
     </v-container>
   </div>
 </template>
 <script>
+import { apiService } from "../common/api.service.js";
 
-import { apiService } from '../common/api.service.js'
-
-export default{
-  name: 'job',
+export default {
+  name: "job",
   props: {
     id: {
       type: Number,
-      required: true
-    } 
+      required: true,
+    },
   },
   data() {
     return {
-      job: {}
-    }
+      job: {},
+    };
   },
   methods: {
-   
-    setPageTitle(title){
+    setPageTitle(title) {
       document.title = title;
     },
-    
+
     getJobData() {
       console.log("ffff");
-      let endpoints = '/api/jobs/'+this.id+'/';
-      apiService(endpoints).then(data => {
+      let endpoints = "/api/jobs/" + this.id + "/";
+      apiService(endpoints).then((data) => {
         console.log("ff");
-        this.job = data;//.replace(/\\n/g, "\\n").replace(/\\'/g, "\\'").replace(/\\"/g, '\\"').replace(/\\&/g, "\\&").replace(/\\r/g, "\\r").replace(/\\t/g, "\\t").replace(/\\b/g, "\\b").replace(/\\f/g, "\\f");
+        this.job = data; //.replace(/\\n/g, "\\n").replace(/\\'/g, "\\'").replace(/\\"/g, '\\"').replace(/\\&/g, "\\&").replace(/\\r/g, "\\r").replace(/\\t/g, "\\t").replace(/\\b/g, "\\b").replace(/\\f/g, "\\f");
         // console.log(this.job);
         // console.log(this.job[this.id]);
-        this.serPageTitle(data.company_name);
-      })
-    }
+        this.serPageTitle(this.recording_date);
+      });
+    },
   },
-  created(){
+  created() {
     this.getJobData();
-  }
-}
+  },
+};
 </script>
